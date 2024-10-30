@@ -45,10 +45,5 @@ export const startup = defineType({
             name: "pitch",
             type: "markdown",
         })
-    ],
-    preview: {
-        select: {
-            title: "name" 
-        }
-    }
+    ]
 });
