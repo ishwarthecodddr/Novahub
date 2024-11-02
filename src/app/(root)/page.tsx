@@ -1,15 +1,13 @@
 import Image from "next/image";
 import SearchForm from "../../../components/SearchForm";
 import {StartupCard} from "@/components/StartupCard";
-import { client } from "@/src/sanity/lib/client";
 import { Startup_Queries } from "@/src/sanity/lib/queries";
+import { sanityFetch, SanityLive } from "@/src/sanity/lib/live";
 
-import { StartupTypeCard } from "@/components/StartupCard";
 
 export default async function Home({ searchParams }: { searchParams: Promise<{ query?: string }> }) {
-  const posts = await client.fetch(Startup_Queries)   // direct from sanity.
-  // console.log(JSON.stringify(post,null ,2))
-  const query = (await searchParams).query    
+  const query = (await searchParams).query;
+  const { data: posts } = await sanityFetch({query:Startup_Queries})
   return (
     <>
     <section className="pink_container">
@@ -30,7 +28,8 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
             posts.map((post:any) => (<StartupCard key={post._id} post={post}/>)  // post must be of type startupcard fix it.
           )):"No results found"}
         </ul>
-    </section>
+      </section>
+      <SanityLive/>
     </>
   );
 }
